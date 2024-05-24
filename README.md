@@ -1,3 +1,3 @@
-# To run this project, run
+# To run this project, enter the following commands
 
-npm install\nnpm run dev
+npm install\npm run dev
