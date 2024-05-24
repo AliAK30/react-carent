@@ -1,4 +1,3 @@
 # To run this project, run
 
-npm install
-npm run dev
+npm install\nnpm run dev
