@@ -1,15 +1,16 @@
 import React from 'react';
-import '../../public/css/page.css'
+import './page.css'
+import wlogo from '../assets/white-logo.png'
+import blogo from '../assets/black-logo.png'
+
 
 export default function Page() {
   return (
     <div className='main-container'>
       <div className='navigation'>
-        <div className='c-rent'>
-          <span className='c'>C</span>
-          <span className='empty-space'> </span>
-          <span className='rent'>RENT</span>
-        </div>
+      
+          <img className="c-rent" src={wlogo}/>
+        
         <div className='items'>
           <div className='search-bar'>
             <div className='content'>
@@ -28,7 +29,6 @@ export default function Page() {
           </div>
           <span className='account'>Account</span>
         </div>
-        <div className='car' />
         <div className='items-2'>
           <span className='about'>ABOUT</span>
           <span className='add-car'>ADD CAR</span>
@@ -95,14 +95,9 @@ export default function Page() {
       </div>
       <div className='navigation-footer'>
         <div className='divider' />
-        <div className='group'>
-          <div className='car-1a' />
-          <div className='c-rent-1b'>
-            <span className='c-1c'>C</span>
-            <span className='empty-space-1d'> </span>
-            <span className='rent-1e'>RENT</span>
-          </div>
-        </div>
+          
+          <img className="c-rent-1b" src={blogo}/>
+
       </div>
       <div className='sec-1f'>
         <div className='frame-20'>

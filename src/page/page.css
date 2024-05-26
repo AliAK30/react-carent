@@ -40,50 +40,8 @@ button {
   overflow: hidden;
 }
 .c-rent {
-  position: absolute;
-  width: 167px;
-  height: 54px;
-  top: 14px;
-  left: 40px;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 33px;
-  font-weight: 900;
-  line-height: 49.5px;
-  text-align: left;
-  text-overflow: initial;
-  white-space: nowrap;
-  letter-spacing: 3.3px;
-  z-index: 46;
-}
-.c {
-  position: relative;
-  color: #ffffff;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 33px;
-  font-weight: 900;
-  line-height: 49.5px;
-  text-align: left;
-  letter-spacing: 3.3px;
-}
-.empty-space {
-  position: relative;
-  color: #ffffff;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 33px;
-  font-weight: 900;
-  line-height: 49.5px;
-  text-align: left;
-  letter-spacing: 4.95px;
-}
-.rent {
-  position: relative;
-  color: #ffffff;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 33px;
-  font-weight: 900;
-  line-height: 49.5px;
-  text-align: left;
-  letter-spacing: 1.32px;
+  height: 120px;
+  width: 221px;
 }
 .items {
   display: flex;
@@ -952,70 +910,15 @@ button {
   background-size: cover;
   z-index: 41;
 }
-.group {
-  position: relative;
-  width: 123.704px;
-  height: 40px;
-  margin: 20px 0 0 61.648px;
-  z-index: 42;
-  overflow: visible auto;
-}
-.car-1a {
-  position: relative;
-  width: 25.185px;
-  height: 25.185px;
-  margin: 8.148px 0 0 17.778px;
-  background: url(../assets/images/917f59b6a7c8ff7d701b3cdf6b3134b0114adf58.png)
-    no-repeat center;
-  background-size: contain;
-  z-index: 44;
-}
+
 .c-rent-1b {
-  position: absolute;
-  width: 123.704px;
-  height: 40px;
+  
+  width: 152px;
+  height: 200px;
   top: 0;
   left: 0;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 25px;
-  font-weight: 900;
-  line-height: 37.5px;
-  text-align: left;
-  text-overflow: initial;
-  white-space: nowrap;
-  letter-spacing: 2.5px;
-  z-index: 43;
 }
-.c-1c {
-  position: relative;
-  color: #000000;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 25px;
-  font-weight: 900;
-  line-height: 37.5px;
-  text-align: left;
-  letter-spacing: 2.5px;
-}
-.empty-space-1d {
-  position: relative;
-  color: #000000;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 25px;
-  font-weight: 900;
-  line-height: 37.5px;
-  text-align: left;
-  letter-spacing: 3px;
-}
-.rent-1e {
-  position: relative;
-  color: #000000;
-  font-family: Montserrat, var(--default-font-family);
-  font-size: 25px;
-  font-weight: 900;
-  line-height: 37.5px;
-  text-align: left;
-  letter-spacing: 1px;
-}
+
 .sec-1f {
   display: flex;
   flex-direction: column;
