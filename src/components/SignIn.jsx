@@ -1,8 +1,14 @@
 import React from "react";
+import { useState } from "react";
 import getCookie from "../utils/getCookie";
 import axios from "axios";
 
+
 export default function SignIn() {
+
+  const [token, setToken] = useState(getCookie("carent-session-token"));
+
+  //setToken(getCookie("carent-session-token"))
   
   const signIn = async (e) => {
 
@@ -14,18 +20,25 @@ export default function SignIn() {
     };
 
     axios
-      .post("http://localhost:8080/auth/signin", obj)
+      .post("http://localhost:8080/auth/signin", obj, { withCredentials: true },)
       .then(function (response) {
-        console.log(response.headers);
-        console.log(document.cookie);
+        setToken(getCookie("carent-session-token"))
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
+  const signOut = () => {
+    //e.preventDefault()
+    axios.get("http://localhost:8080/auth/signout", { withCredentials: true },).then((res => {
+      setToken(getCookie("carent-session-token"))
+    }))
+  }
+
   return (
-    <form
+    <>
+    {token === "" ? <form
       onSubmit={(e) => {
         signIn(e);
       }}
@@ -35,7 +48,8 @@ export default function SignIn() {
 
       <label>Password</label>
       <input type="password" id="password" placeholder="Password" />
-      <button type="submit">Submit</button>
-    </form>
+      <button type="submit">Sign In</button>
+    </form> : <button onClick={signOut}>Signout</button>}
+    </>
   );
 }
