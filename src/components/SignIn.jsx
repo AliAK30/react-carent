@@ -6,7 +6,7 @@ import CarForm from "./CarForm";
 
 export default function SignIn() {
   const [token, setToken] = useState(getCookie("carent-session-token"));
-  const [fullname, setFullname] = useState("");
+  const [user, setUser] = useState({});
 
   
   const signIn = async (e) => {
@@ -21,7 +21,8 @@ export default function SignIn() {
       .post("http://localhost:8080/auth/signin", obj, { withCredentials: true })
       .then(function (response) {
         setToken(getCookie("carent-session-token"));
-        setFullname(response.data.fullname);
+        console.log(document.cookie)
+        setUser(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -54,7 +55,7 @@ export default function SignIn() {
         </form>
       ) : (
         <div>
-          <CarForm fullname={fullname} /> <button onClick={signOut}>Signout</button>
+          <CarForm id={user.id} fullname={user.fullname} token={token}/> <button onClick={signOut}>Signout</button>
         </div>
       )}
     </>
