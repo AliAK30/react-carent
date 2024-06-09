@@ -1,12 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import getCookie from "../utils/getCookie";
-import axios from "axios";
 import CarForm from "./CarForm";
+import axios from "axios";
+import Car from "./Car"
 
 export default function SignIn() {
-  const [token, setToken] = useState(getCookie("carent-session-token"));
+  const [token, setToken] = useState("");
   const [user, setUser] = useState({});
+  const [addcar, setAddcar] = useState(false)
+  const [viewcars, setViewcars] = useState(null)
+
 
   
   const signIn = async (e) => {
@@ -20,8 +24,7 @@ export default function SignIn() {
     axios
       .post("http://localhost:8080/auth/signin", obj, { withCredentials: true })
       .then(function (response) {
-        setToken(getCookie("carent-session-token"));
-        console.log(document.cookie)
+        setToken(getCookie("carent-session-token").token);
         setUser(response.data);
       })
       .catch(function (error) {
@@ -29,14 +32,20 @@ export default function SignIn() {
       });
   };
 
-  const signOut = () => {
+  const signOut = async () => {
     //e.preventDefault()
-    axios
+    await axios
       .get("http://localhost:8080/auth/signout", { withCredentials: true })
       .then((res) => {
         setToken(getCookie("carent-session-token"));
       });
   };
+
+  const getAllCars = async () => {
+    await axios.get("http://localhost:8080/cars").then(res=> {
+      setViewcars(res.data)
+    }, err=>console.log(err))
+  }
 
   return (
     <>
@@ -55,7 +64,13 @@ export default function SignIn() {
         </form>
       ) : (
         <div>
-          <CarForm id={user.id} fullname={user.fullname} token={token}/> <button onClick={signOut}>Signout</button>
+          {addcar ? <div><CarForm id={user.id} fullname={user.fullname} token={token}/> <button onClick={()=>setAddcar(!addcar)}>Go Back</button></div>:
+          <div><button onClick={()=>setAddcar(!addcar)}>Add Car</button>
+          <button onClick={getAllCars} >Rent Car</button></div>}
+          {viewcars ? <div><Car cars={viewcars}/> <button onClick={()=>setViewcars(null)}>Go Back</button></div>:
+          <div><button onClick={()=>setAddcar(!addcar)}>Add Car</button>
+          <button onClick={getAllCars} >Rent Car</button></div>}
+          <button onClick={signOut}>Signout</button>
         </div>
       )}
     </>
