@@ -1,39 +1,32 @@
-import React from "react";
-import { useState } from "react";
-import SignIn from "./components/SignIn";
-import SignUp from "./components/SignUp";
+import React, {useState} from "react";
+import "./App.css";
+import Login from "./components/Login";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import Footer from "./components/Footer";
+import RegForm from "./components/RegForm";
 
-export default function App() {
+export const OptionsContext = React.createContext({
+  component: {},
+  setComponent: () => {},
+});
 
-  const [suClicked, setSuClicked] = useState(false);
-  const [siClicked, setSiClicked] = useState(false);
-
-  if (suClicked) {
-    return (
-      <>
-        <SignUp />
-        <button onClick={()=> {setSuClicked(!suClicked)}}>Go Back</button>
-      </>
-    );
-  } else if (siClicked) {
-    return (
-      <>
-      <SignIn />
-      <button onClick={()=> {setSiClicked(!siClicked)}}>Go Back</button>
-      </>
-      )
-  }
-    
-    
-  else
-  {
-    return (
-      <div>
-        <button onClick={()=>{setSuClicked(!suClicked)}}>Sign Up</button>
-        <button onClick={()=>{setSiClicked(!siClicked)}}>Sign In</button>
-      </div>
-    );
-  }
-
+export function App() {
+  const [component, setComponent] = useState({
+    login: false,
+    home: true,
+    regForm: false,
+  });
   
+  console.log(component)
+
+  return (
+    <OptionsContext.Provider value ={{component, setComponent}}>
+      <Navbar />
+      {component.home && <Home />}
+      {component.login && <Login />}
+      {component.regForm && <RegForm />}
+      <Footer />
+    </OptionsContext.Provider>
+  );
 }

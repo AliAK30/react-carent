@@ -1,0 +1,53 @@
+
+
+@media (min-width: 1200px) {
+  .py-xl-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  element.style {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .position-relative {
+    position: relative !important;
+  }
+  
+  
+    
+.section {
+    background: url("../assets/section.jpg") center;
+  }
+
+.py-4 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+::selection {
+  color: #fff;
+  background: #3763f4;
+  text-shadow: none;
+}
+
+.container, .container-fluid, .container-xxl, .container-xl, .container-lg, .container-md, .container-sm {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100%;
+  padding-right: calc(var(--bs-gutter-x)*.5);
+  padding-left: calc(var(--bs-gutter-x)*.5);
+  margin-right: auto;
+  margin-left: auto;
+}
