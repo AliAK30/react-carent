@@ -6,7 +6,7 @@ import axios from "axios";
 import Car from "./Car"
 
 export default function SignIn() {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(getCookie("carent-session-token").token);
   const [user, setUser] = useState({});
   const [addcar, setAddcar] = useState(false)
   const [viewcars, setViewcars] = useState(null)

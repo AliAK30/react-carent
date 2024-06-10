@@ -46,6 +46,9 @@ const CarForm = (props) => {
         <label>Exterior Color</label>
         <input type="text" name="exterior_color" />
 
+        <label>Category</label>
+        <input type="text" name="category" />
+
         <label>Gas Mileage</label>
         <input type="number" name="gas_mileage" />
 
