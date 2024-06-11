@@ -1,5 +1,5 @@
-import logo from '../assets/image.png';
-import './Footer.css';
+import logo from '../assets/img/clipboard-image.png';
+//import './Footer.css';
 
 function Footer() {
   return (

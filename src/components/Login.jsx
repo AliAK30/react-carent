@@ -1,4 +1,5 @@
-import './Login.css';
+//import './Login.css';
+import login from '../assets/img/login.jpg'
 import { useContext } from 'react';
 import { OptionsContext } from '../App';
 
@@ -7,7 +8,7 @@ function Login() {
     return (
 
 <section
-  className="py-5"
+  className="py-5" 
 >
   <div className="container py-5">
     <div className="row mb-4 mb-lg-5">
@@ -69,7 +70,6 @@ function Login() {
                   Sign up
                 </button>
               </div>
-              <p className="text-muted">Forgot your password?</p>
             </form>
           </div>
         </div>
