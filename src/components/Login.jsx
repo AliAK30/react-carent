@@ -2,9 +2,29 @@
 import login from '../assets/img/login.jpg'
 import { useContext } from 'react';
 import { OptionsContext } from '../App';
+import { defaultComponent } from '../App';
 
 function Login() {
-  const {component, setComponent} = useContext(OptionsContext)
+  const {setComponent, setLogged} = useContext(OptionsContext)
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    const obj = {
+      email: e.target.email.value,
+      password: e.target.password.value,
+    };
+
+    axios
+      .post("http://localhost:8080/auth/signin", obj, { withCredentials: true })
+      .then(function (response) {
+        //setToken(getCookie("carent-session-token").token);
+        //setUser(response.data);
+        setLogged(true)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
     return (
 
 <section
@@ -33,7 +53,7 @@ function Login() {
                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
               </svg>
             </div>
-            <form method="post">
+            <form onSubmit={(e)=>handleSubmit(e)}>
               <div className="mb-3">
                 <input
                   className="form-control"
@@ -62,8 +82,7 @@ function Login() {
                 <button
                   className="btn btn-primary shadow d-block w-100"
                   onClick={()=>setComponent({
-                    login: false,
-                    home: false,
+                    ...defaultComponent,
                     regForm: true,
                   })}
                 >

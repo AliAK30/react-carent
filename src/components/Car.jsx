@@ -2,6 +2,7 @@ import { OptionsContext } from "../App";
 import capitalize from "../utils/capitalize";
 import convertPath from "../utils/convertPath";
 import getCookie from "../utils/getCookie";
+import { defaultComponent } from "../App";
 import { useRef, useState, useContext } from "react";
 import axios from "axios";
 
@@ -52,12 +53,8 @@ export default function Car({ carDetails, back }) {
 
   const rentNow = async () => {
     if (getCookie("carent-session-token") === "") {
-      setComponent({
-        login: true,
-        home: false,
-        regForm: false,
-        contacts: false,
-        cars: false,
+      setComponent({...defaultComponent,
+        login: true
       });
     } else if (!invalid) {
       const data = {

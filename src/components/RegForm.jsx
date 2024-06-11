@@ -1,6 +1,7 @@
 //import "./Login.css";
 import { useContext } from "react";
 import { OptionsContext } from "../App";
+import { defaultComponent } from "../App";
 
 function Signup() {
   const { component, setComponent } = useContext(OptionsContext);
@@ -76,10 +77,8 @@ function Signup() {
                     Already have an account?&nbsp;
                     <a
                       onClick={() =>
-                        setComponent({
-                          login: true,
-                          home: false,
-                          regForm: false,
+                        setComponent({...defaultComponent,
+                          login: true
                         })
                       }
                     >

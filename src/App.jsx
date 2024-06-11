@@ -6,26 +6,34 @@ import Footer from "./components/Footer";
 import RegForm from "./components/RegForm";
 import Contact from "./components/Contact";
 import CarsList from "./components/CarsList";
+import Dashboard from "./components/DashBoard";
 import axios from "axios";
 
+export const defaultComponent = {
+  login: false,
+  home: false,
+  regForm: false,
+  contacts: false,
+  cars: false,
+  dashboard: false,
+};
 
 export const OptionsContext = React.createContext({
   component: {},
   setComponent: () => {},
   cars: [],
   setCars: () => {},
+  logged: false,
+  setLogged: () => {},
 });
 
 export function App() {
   const [component, setComponent] = useState({
-    login: false,
-    home: true,
-    regForm: false,
-    contacts: false,
-    cars: false,
+    ...defaultComponent, home: true
   });
 
   const [cars, setCars] = useState([]);
+  const [logged, setLogged] = useState(false)
 
   useEffect(
     () => async () => {
@@ -42,13 +50,14 @@ export function App() {
   
 
   return (
-    <OptionsContext.Provider value ={{component, setComponent, cars, setCars}}>
+    <OptionsContext.Provider value ={{component, setComponent, cars, setCars, logged, setLogged}}>
       <Navbar />
       {component.home && <Home />}
       {component.login && <Login />}
       {component.regForm && <RegForm />}
       {component.contacts && <Contact />}
       {component.cars && <CarsList/>}
+      {component.dashboard && <Dashboard/>}
       <Footer />
     </OptionsContext.Provider>
   );

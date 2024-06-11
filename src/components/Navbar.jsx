@@ -1,18 +1,14 @@
 import React from "react";
 import logo1 from "../assets/img/clipboard-image.png";
+import AccountDropdown from "./AccountDropdown";
 import { useContext, useRef, useEffect } from "react";
 import { OptionsContext } from "../App";
+import { defaultComponent } from "../App";
 
-const defaultComponent = {
-  login: false,
-  home: false,
-  regForm: false,
-  contacts: false,
-  cars: false,
-};
+
 
 const Navbar = () => {
-  const { component, setComponent } = useContext(OptionsContext);
+  const { logged, component, setComponent } = useContext(OptionsContext);
 
   const active = useRef(null);
   const prevActive = useRef(null);
