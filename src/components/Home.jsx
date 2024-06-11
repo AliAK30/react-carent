@@ -7,8 +7,12 @@ import microsoft from "../assets/img/brands/microsoft.png"
 import apple from "../assets/img/brands/apple.png"
 import facebook from "../assets/img/brands/facebook.png"
 import twitter from "../assets/img/brands/twitter.png"
+import { useContext } from "react";
+import { OptionsContext } from "../App";
 
 export default function Home() {
+  const { setComponent } = useContext(OptionsContext);
+
   return (
     <>
       <section
@@ -27,13 +31,21 @@ export default function Home() {
           <a
             className="btn btn-primary btn-lg d-flex d-xxl-flex justify-content-center align-items-center flex-wrap justify-content-xxl-center mx-auto"
             role="button"
-            href="#"
             style={{
               position: "relative",
               width: 223,
               background: "#b02626",
               height: "45.5938px",
               paddingTop: 6,
+            }}
+            onClick={() => {
+              setComponent({
+                login: false,
+                home: false,
+                regForm: false,
+                contacts: false,
+                cars: true,
+              });
             }}
           >
             Search Now

@@ -1,4 +1,32 @@
-export default function CarsList() {
+import { useState, useEffect, useRef, useMemo} from "react";
+import { OptionsContext } from "../App";
+import convertPath from "../utils/convertPath"
+import capitalize from "../utils/capitalize"
+
+function removeDuplicates(arr) {
+  return [...new Set(arr)];
+  }
+
+
+export default function CarsList({cars}) {
+  //const { component } = useContext(OptionsContext);
+  //const categoriesKey = useRef(-1)
+
+  
+
+  const categories = useMemo(() => {
+    return removeDuplicates(cars).map((car) => {
+      //categoriesKey.current++;
+      return (
+        <a className="dropdown-item" role="button" key={car.category}>
+          {car.category}
+        </a>
+      );
+    });
+  }, [cars]);
+
+  console.log(cars);
+
   return (
     <section>
       <div
@@ -30,17 +58,7 @@ export default function CarsList() {
               >
                 Category
               </button>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  First Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Second Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Third Item
-                </a>
-              </div>
+              <div className="dropdown-menu">{categories}</div>
             </div>
             <div className="dropdown d-inline-flex">
               <button
@@ -133,102 +151,110 @@ export default function CarsList() {
             className="row row-cols-1 row-cols-md-2 mx-auto"
             style={{ maxWidth: 900 }}
           >
-            <div className="col mb-4">
-              <div
-                className="card shadow-sm"
-                style={{
-                  marginRight: 22,
-                  marginLeft: "-9px",
-                  borderRadius: 49,
-                  background: "rgba(255,255,255,0.57)",
-                  width: 415,
-                }}
-              >
-                <div
-                  className="card-body px-4 py-5 px-md-5"
-                  style={{
-                    borderRadius: 45,
-                    borderWidth: 3,
-                    borderStyle: "solid",
-                  }}
-                >
+            
+                {cars.map(car=> {
+                  return <div className="col mb-4">
                   <div
-                    className="d-flex justify-content-center align-items-center mb-3 bs-icon"
+                    className="card shadow-sm"
                     style={{
-                      top: "1rem",
-                      right: "1rem",
-                      position: "relative",
-                      marginLeft: 58,
-                      width: 221,
-                      height: 129,
-                      paddingBottom: 52,
+                      marginRight: 22,
+                      marginLeft: "-9px",
+                      borderRadius: 49,
+                      background: "rgba(255,255,255,0.57)",
+                      width: 415,
                     }}
                   >
-                    <img src="/src/assets/img/car-Revo.png" style={{ maxWidth: 321 }} />
+                    <div
+                      className="card-body px-4 py-5 px-md-5"
+                      style={{
+                        borderRadius: 45,
+                        borderWidth: 3,
+                        borderStyle: "solid",
+                      }}
+                    >
+                      <div
+                        className="d-flex justify-content-center align-items-center mb-3 bs-icon"
+                        style={{
+                          top: "1rem",
+                          right: "1rem",
+                          position: "relative",
+                          marginLeft: 58,
+                          width: 221,
+                          height: 129,
+                          paddingBottom: 52,
+                        }}
+                      >
+                        <img
+                          src={convertPath(car.photos_url[0])}
+                          style={{ maxWidth: 321 }}
+                        />
+                      </div>
+                      <h5
+                        className="fw-bold shadow-sm card-title"
+                        style={{
+                          textAlign: "left",
+                          fontSize: 29,
+                          textShadow: "0px 0px 6px var(--bs-gray-500)",
+                          paddingLeft: 20,
+                          color: "var(--bs-black)",
+                        }}
+                      >
+                        {capitalize(car.make)+" " + capitalize(car.model)}
+                      </h5>
+                      <p
+                        className="card-text mb-4"
+                        style={{
+                          fontSize: 18,
+                          margin: 19,
+                          color: "var(--bs-black)",
+                        }}
+                      >
+                        <strong>Category:</strong> {car.category}
+                        <br />
+                        <strong>Location:</strong> {capitalize(car.city)}
+                      </p>
+                      <h5
+                        className="fw-bold shadow-sm card-title"
+                        style={{
+                          textAlign: "center",
+                          fontSize: 29,
+                          textShadow: "0px 0px 6px var(--bs-gray-500)",
+                          width: 99,
+                          display: "inline-block",
+                          position: "relative",
+                          paddingLeft: 0,
+                          marginLeft: 92,
+                          color: "var(--bs-black)",
+                        }}
+                      >
+                        {car.price_per_day}
+                      </h5>
+                      <h5
+                        className="fw-bold shadow-sm card-title"
+                        style={{
+                          textAlign: "center",
+                          fontSize: 16,
+                          textShadow: "0px 0px 6px var(--bs-gray-500)",
+                          width: 78,
+                          display: "inline-block",
+                          color: "var(--bs-black)",
+                        }}
+                      >
+                        PKR / day
+                      </h5>
+                      <button
+                        className="btn btn-primary shadow"
+                        type="button"
+                        style={{ width: 310 }}
+                      >
+                        Rent Now
+                      </button>
+                    </div>
                   </div>
-                  <h5
-                    className="fw-bold shadow-sm card-title"
-                    style={{
-                      textAlign: "left",
-                      fontSize: 29,
-                      textShadow: "0px 0px 6px var(--bs-gray-500)",
-                      paddingLeft: 20,
-                      color: "var(--bs-black)",
-                    }}
-                  >
-                    TOYOTA Rivo
-                  </h5>
-                  <p
-                    className="card-text mb-4"
-                    style={{
-                      fontSize: 18,
-                      margin: 19,
-                      color: "var(--bs-black)",
-                    }}
-                  >
-                    <strong>Category:</strong> Luxury
-                    <br />
-                    <strong>Location:</strong> Karachi, Pakistan
-                  </p>
-                  <h5
-                    className="fw-bold shadow-sm card-title"
-                    style={{
-                      textAlign: "center",
-                      fontSize: 29,
-                      textShadow: "0px 0px 6px var(--bs-gray-500)",
-                      width: 99,
-                      display: "inline-block",
-                      position: "relative",
-                      paddingLeft: 0,
-                      marginLeft: 92,
-                      color: "var(--bs-black)",
-                    }}
-                  >
-                    10000
-                  </h5>
-                  <h5
-                    className="fw-bold shadow-sm card-title"
-                    style={{
-                      textAlign: "center",
-                      fontSize: 16,
-                      textShadow: "0px 0px 6px var(--bs-gray-500)",
-                      width: 78,
-                      display: "inline-block",
-                      color: "var(--bs-black)",
-                    }}
-                  >
-                    PKR / day
-                  </h5>
-                  <button
-                    className="btn btn-primary shadow"
-                    type="button"
-                    style={{ width: 310 }}
-                  >
-                    Rent Now
-                  </button>
                 </div>
-              </div>
-            </div>
+                })}
+
+
           </div>
         </div>
       </div>
