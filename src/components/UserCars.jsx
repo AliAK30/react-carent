@@ -18,9 +18,7 @@ export default function UserCars({cars, toDelete}) {
       }
     )
     .then((res) => {
-      console.log(res.data)
-      console.log(cars.map(car=>{if(car._id !== res.data._id) return car}))
-      toDelete(<UserCars cars={cars.map(car=>{if(car._id !== res.data._id) return car})} toDelete={toDelete} />);
+      toDelete(<UserCars cars={cars.filter(car=>{return car._id !== res.data._id})} toDelete={toDelete} />);
     })
     .catch((err) => {
       console.log(err);
