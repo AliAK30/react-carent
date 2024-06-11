@@ -5,8 +5,22 @@ import CarForm from "./CarForm";
 import axios from "axios";
 import Car from "./Car"
 
+function getToken()
+{
+    const obj = getCookie("carent-session-token")
+    if(obj === "")
+    {
+      return ""
+    }
+    else
+    {
+      return obj.token
+    }
+}
+
+
 export default function SignIn() {
-  const [token, setToken] = useState(getCookie("carent-session-token").token);
+  const [token, setToken] = useState(getCookie());
   const [user, setUser] = useState({});
   const [addcar, setAddcar] = useState(false)
   const [viewcars, setViewcars] = useState(null)
