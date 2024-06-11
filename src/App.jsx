@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -7,6 +7,7 @@ import RegForm from "./components/RegForm";
 import Contact from "./components/Contact";
 import CarsList from "./components/CarsList";
 import Dashboard from "./components/DashBoard";
+import CarForm from "./components/CarForm";
 import axios from "axios";
 import getCookie from "./utils/getCookie";
 
@@ -17,6 +18,7 @@ export const defaultComponent = {
   contacts: false,
   cars: false,
   dashboard: false,
+  addCars: false,
 };
 
 export const OptionsContext = React.createContext({
@@ -30,11 +32,12 @@ export const OptionsContext = React.createContext({
 
 export function App() {
   const [component, setComponent] = useState({
-    ...defaultComponent, home: true
+    ...defaultComponent,
+    home: true,
   });
 
   const [cars, setCars] = useState([]);
-  const [logged, setLogged] = useState(false)
+  const [logged, setLogged] = useState(false);
 
   useEffect(
     () => async () => {
@@ -48,23 +51,24 @@ export function App() {
     [component]
   );
 
-  useEffect(()=>{if(getCookie("carent-session-token") !== "")
-    {
-      setLogged(true)
+  useEffect(() => {
+    if (getCookie("carent-session-token") !== "") {
+      setLogged(true);
     }
-  },[])
-    
-  
+  }, []);
 
   return (
-    <OptionsContext.Provider value ={{component, setComponent, cars, setCars, logged, setLogged}}>
+    <OptionsContext.Provider
+      value={{ component, setComponent, cars, setCars, logged, setLogged }}
+    >
       <Navbar />
       {component.home && <Home />}
       {component.login && <Login />}
       {component.regForm && <RegForm />}
       {component.contacts && <Contact />}
-      {component.cars && <CarsList/>}
-      {component.dashboard && <Dashboard/>}
+      {component.cars && <CarsList />}
+      {component.dashboard && <Dashboard />}
+      {component.addCars && <CarForm/>}
       <Footer />
     </OptionsContext.Provider>
   );

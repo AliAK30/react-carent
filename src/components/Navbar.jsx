@@ -73,6 +73,10 @@ const Navbar = () => {
                   role="button"
                   onClick={(e) => {
                     setFocus(e);
+                    setComponent({
+                      ...defaultComponent,
+                      addCars: true,
+                    });
                   }}
                 >
                   Add Car
