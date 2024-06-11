@@ -1,11 +1,63 @@
-//import "./Login.css";
-import { useContext } from "react";
+import RegConfirmation from "./RegConfirmation";
+import { useContext, useState } from "react";
 import { OptionsContext } from "../App";
 import { defaultComponent } from "../App";
+import axios from "axios";
 
 function Signup() {
   const { component, setComponent } = useContext(OptionsContext);
+  const [invalid, setInvalid] = useState(null);
+
+  const signUp = (e) => {
+    e.preventDefault();
+
+    const obj = {
+      fullname: e.target.fullname.value,
+      email: e.target.email.value,
+      password: e.target.password.value,
+      confirmPassword: e.target.confirmPassword.value,
+    };
+
+    if (obj.fullname === "") {
+      setInvalid(
+        <span className="badge bg-danger" style={{ marginTop: "20px" }}>
+          Please enter your Full Name
+        </span>
+      );
+    }
+
+    else if (obj.email === "") {
+      setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
+          Please enter your Email
+        </span>)
+    }
+    else if (obj.password === "") {
+      setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
+          Please enter a Password
+        </span>)
+    }
+
+    if (e.target.password.value === e.target.confirmPassword.value) {
+      axios
+        .post("http://localhost:8080/auth/signup", obj)
+        .then(function (response) {
+          setInvalid("successful")
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      setInvalid(
+        <span className="badge bg-danger" style={{ marginTop: "20px" }}>
+          Password does not match
+        </span>
+      );
+    }
+  };
+
   return (
+    <>
+    {invalid === "successful" ? <RegConfirmation/>:
     <section className="py-5">
       <div className="container py-5" style={{ marginTop: "-2px" }}>
         <div className="row mb-4 mb-lg-5" style={{ marginTop: "-30px" }}>
@@ -32,12 +84,16 @@ function Signup() {
                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                   </svg>
                 </div>
-                <form method="post">
+                <form
+                  onSubmit={(e) => {
+                    signUp(e);
+                  }}
+                >
                   <div className="mb-3">
                     <input
                       className="form-control"
                       type="text"
-                      name="name"
+                      id="fullname"
                       placeholder="Full Name"
                     />
                   </div>
@@ -45,7 +101,7 @@ function Signup() {
                     <input
                       className="form-control"
                       type="email"
-                      name="email"
+                      id="email"
                       placeholder="Email"
                     />
                   </div>
@@ -53,7 +109,7 @@ function Signup() {
                     <input
                       className="form-control"
                       type="password"
-                      name="password"
+                      id="password"
                       placeholder="Password"
                     />
                   </div>
@@ -61,9 +117,10 @@ function Signup() {
                     <input
                       className="form-control"
                       type="password"
-                      name="con_password"
+                      id="confirmPassword"
                       placeholder="Confirm Password"
                     />
+                    {invalid?invalid:""}
                   </div>
                   <div className="mb-3">
                     <button
@@ -77,12 +134,19 @@ function Signup() {
                     Already have an account?&nbsp;
                     <a
                       onClick={() =>
-                        setComponent({...defaultComponent,
-                          login: true
-                        })
+                        setComponent({ ...defaultComponent, login: true })
                       }
                     >
-                      <span id="myspan" style={{color:"#0d6efd", fontWeight:"bold", cursor:"pointer"}}>Log in</span>
+                      <span
+                        id="myspan"
+                        style={{
+                          color: "#0d6efd",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Log in
+                      </span>
                     </a>
                   </p>
                 </form>
@@ -91,7 +155,8 @@ function Signup() {
           </div>
         </div>
       </div>
-    </section>
+    </section>}
+    </>
   );
 }
 
