@@ -1,4 +1,54 @@
+import { useRef, useState, useContext } from "react";
+import { categories, years, cities } from "../utils/carFormHelper";
+import getCookie from "../utils/getCookie";
+import axios from "axios";
+import { OptionsContext } from "../App";
+import { defaultComponent } from "../App";
+
 export default function CarForm() {
+  const [click, setClick] = useState(false);
+  const {setComponent} = useContext(OptionsContext)
+  const category = useRef("Category");
+  const year = useRef("Year");
+  const city = useRef("City");
+
+  const handleClick = (e, clickType) => {
+    e.preventDefault();
+    if (clickType === "category") {
+      category.current = e.target.text;
+    } else if (clickType === "year") {
+      year.current = e.target.text;
+    } else if (clickType === "city") {
+      city.current = e.target.text;
+    }
+    setClick(!click);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(e.target);
+    data.append("owner", getCookie("carent-session-token").id);
+    data.append("owner_name", getCookie("carent-session-token").fullname);
+    data.append("city", city.current)
+    data.append("category", category.current)
+    data.append("year", category.current)
+
+    await axios
+      .post("http://localhost:8080/user/car/add", data, {
+        headers: {
+          Authorization: `Bearer ${getCookie("carent-session-token").token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setComponent({...defaultComponent, dashboard: true})
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <section style={{ paddingTop: 70, paddingBottom: 70 }}>
@@ -45,33 +95,24 @@ export default function CarForm() {
                         boxShadow: "0px 0px var(--bs-red)",
                       }}
                     >
-                      Year
+                      {year.current}
                     </button>
                     <div
                       className="dropdown-menu"
                       style={{ boxShadow: "0px 0px var(--bs-red)" }}
                     >
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        First Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Second Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Third Item
-                      </a>
+                      {years.map((year) => {
+                        return (
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ boxShadow: "0px 0px var(--bs-red)" }}
+                            onClick={(e)=>handleClick(e, "year")}
+                          >
+                            {year}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="dropdown d-inline-flex">
@@ -89,33 +130,24 @@ export default function CarForm() {
                         boxShadow: "0px 0px var(--bs-red)",
                       }}
                     >
-                      Category
+                    {category.current}
                     </button>
                     <div
                       className="dropdown-menu"
                       style={{ boxShadow: "0px 0px var(--bs-red)" }}
                     >
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        First Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Second Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Third Item
-                      </a>
+                      {categories.map((category) => {
+                        return (
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ boxShadow: "0px 0px var(--bs-red)" }}
+                            onClick={(e)=>handleClick(e, "category")}
+                          >
+                            {category}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="dropdown d-inline-flex">
@@ -133,43 +165,40 @@ export default function CarForm() {
                         boxShadow: "0px 0px var(--bs-red)",
                       }}
                     >
-                      City
+                      {city.current}
                     </button>
                     <div
                       className="dropdown-menu"
                       style={{ boxShadow: "0px 0px var(--bs-red)" }}
                     >
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        First Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Second Item
-                      </a>
-                      <a
-                        className="dropdown-item"
-                        href="#"
-                        style={{ boxShadow: "0px 0px var(--bs-red)" }}
-                      >
-                        Third Item
-                      </a>
+                      {cities.map((city) => {
+                        return (
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ boxShadow: "0px 0px var(--bs-red)" }}
+                            onClick={(e)=>handleClick(e, "city")}
+                          >
+                            {city}
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-          <div className="row d-flex justify-content-center">
-            <div className="col-md-6 col-xl-4" style={{ marginRight: 30 }}>
-              <div>
-                <form name="color" placeholder="Color">
+          <form
+            id="carform"
+            encType={"multipart/form-data"}
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            <div className="row d-flex justify-content-center">
+              <div className="col-md-6 col-xl-4" style={{ marginRight: 30 }}>
+                <div>
                   <div className="mb-3">
                     <input
                       id="email-3"
@@ -177,6 +206,7 @@ export default function CarForm() {
                       type="text"
                       name="make"
                       placeholder="Make"
+                      style={{ color: "var(--bs-black)" }}
                     />
                   </div>
                   <div className="mb-3" />
@@ -185,8 +215,8 @@ export default function CarForm() {
                       id="email-1"
                       className="form-control"
                       type="number"
-                      name="mileage"
-                      placeholder="Mileage"
+                      name="gas_mileage"
+                      placeholder="Fuel Average"
                       style={{ color: "var(--bs-black)" }}
                     />
                   </div>
@@ -195,26 +225,26 @@ export default function CarForm() {
                       id="email-5"
                       className="form-control"
                       type="text"
-                      name="color"
+                      name="exterior_color"
                       placeholder="Color"
+                      style={{ color: "black" }}
                     />
                   </div>
                   <div className="mb-3">
                     <textarea
                       id="message-1"
                       className="form-control"
-                      name="desc"
+                      name="description"
                       rows={3}
                       placeholder="Description"
                       defaultValue={""}
                     />
                   </div>
-                </form>
+                </div>
               </div>
-            </div>
-            <div className="col-md-6 col-xl-4" style={{ marginLeft: 30 }}>
-              <div>
-                <form name="color" placeholder="Color">
+
+              <div className="col-md-6 col-xl-4" style={{ marginLeft: 30 }}>
+                <div>
                   <div className="mb-3">
                     <input
                       id="email-6"
@@ -222,6 +252,7 @@ export default function CarForm() {
                       type="text"
                       name="model"
                       placeholder="Model"
+                      style={{ color: "var(--bs-black)" }}
                     />
                   </div>
                   <div className="mb-3">
@@ -229,7 +260,7 @@ export default function CarForm() {
                       id="email-2"
                       className="form-control"
                       type="number"
-                      name="price"
+                      name="price_per_day"
                       placeholder="Price / Day"
                     />
                   </div>
@@ -238,38 +269,38 @@ export default function CarForm() {
                       id="email-4"
                       className="form-control"
                       type="file"
-                      name="file"
+                      name="car_images"
                       placeholder="Price / Day"
+                      multiple
                     />
                   </div>
                   <div className="mb-3">
                     <textarea
                       id="message-3"
                       className="form-control"
-                      name="add"
+                      name="address"
                       rows={3}
                       placeholder="Address"
                       defaultValue={""}
                     />
                   </div>
-                </form>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
           <div className="row d-flex justify-content-center">
             <div className="col-md-6 col-xl-4">
               <div>
-                <form className="p-3 p-xl-4" method="post">
-                  <div>
-                    <button
-                      className="btn btn-primary shadow d-block w-100"
-                      type="submit"
-                      style={{ fontSize: 21 }}
-                    >
-                      Add Car
-                    </button>
-                  </div>
-                </form>
+                <div>
+                  <button
+                    className="btn btn-primary shadow d-block w-100"
+                    type="submit"
+                    form="carform"
+                    style={{ fontSize: 21 }}
+                  >
+                    Add Car
+                  </button>
+                </div>
               </div>
             </div>
           </div>
