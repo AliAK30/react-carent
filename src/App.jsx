@@ -12,6 +12,8 @@ import axios from "axios";
 export const OptionsContext = React.createContext({
   component: {},
   setComponent: () => {},
+  cars: [],
+  setCars: () => {},
 });
 
 export function App() {
@@ -40,13 +42,13 @@ export function App() {
   
 
   return (
-    <OptionsContext.Provider value ={{component, setComponent}}>
+    <OptionsContext.Provider value ={{component, setComponent, cars, setCars}}>
       <Navbar />
       {component.home && <Home />}
       {component.login && <Login />}
       {component.regForm && <RegForm />}
       {component.contacts && <Contact />}
-      {component.cars && <CarsList cars={cars}/>}
+      {component.cars && <CarsList/>}
       <Footer />
     </OptionsContext.Provider>
   );

@@ -1,31 +1,96 @@
-import { useState, useEffect, useRef, useMemo} from "react";
+import { useState, useEffect, useRef, useMemo, useContext} from "react";
 import { OptionsContext } from "../App";
 import convertPath from "../utils/convertPath"
 import capitalize from "../utils/capitalize"
+import axios from "axios";
 
 function removeDuplicates(arr) {
+  //console.log(arr)
   return [...new Set(arr)];
   }
 
 
-export default function CarsList({cars}) {
-  //const { component } = useContext(OptionsContext);
-  //const categoriesKey = useRef(-1)
+export default function CarsList() {
+  const { cars, setCars } = useContext(OptionsContext);
+  const [filter, setFilter] = useState("")
+  const category = useRef("Category")
+  const make = useRef("Make")
+  const model = useRef("Model")
+  const city = useRef("City")
 
+  const applyFilter = async (e, filterType) => {
+    let filterString = ""
+    if(filter === "")
+    {
+      filterString = `${filterType}=${e.target.text.toLowerCase()}`
+      console.log(filterString)
+    }
+    else
+    {
+      filterString = `${filter}&${filterType}=${e.target.text.toLowerCase()}`
+    }
   
+    //console.log(filterString)
+
+    await axios.get(`http://localhost:8080/cars?${filterString}`).then(
+      (res) => {
+        if(filterType === "category")
+          category.current = e.target.text
+        if(filterType === "make")
+          make.current = e.target.text
+        if(filterType === "model")
+          model.current = e.target.text
+        if(filterType === "city")
+          city.current = e.target.text
+        console.log(res.data)
+        setCars(res.data)
+        setFilter(filterString);
+      },
+      (err) => console.log(err)
+    );
+  }
 
   const categories = useMemo(() => {
     return removeDuplicates(cars).map((car) => {
-      //categoriesKey.current++;
       return (
-        <a className="dropdown-item" role="button" key={car.category}>
-          {car.category}
+        <a className="dropdown-item" role="button" key={car.category} onClick={(e)=>applyFilter(e, "category")}>
+          {capitalize(car.category)}
         </a>
       );
     });
   }, [cars]);
 
-  console.log(cars);
+  const makes = useMemo(() => {
+    return removeDuplicates(cars).map((car) => {
+      return (
+        <a className="dropdown-item" role="button" key={car.make} onClick={(e)=>applyFilter(e, "make")}>
+          {capitalize(car.make)}
+        </a>
+      );
+    });
+  }, [cars]);
+
+  const models = useMemo(() => {
+    return removeDuplicates(cars).map((car) => {
+      return (
+        <a className="dropdown-item" role="button" key={car.model} onClick={(e)=>applyFilter(e, "model")}>
+          {capitalize(car.model)}
+        </a>
+      );
+    });
+  }, [cars]);
+
+  const cities = useMemo(() => {
+    return removeDuplicates(cars).map((car) => {
+      return (
+        <a className="dropdown-item" role="button" key={car.city} onClick={(e)=>applyFilter(e, "city")}>
+          {capitalize(car.city)}
+        </a>
+      );
+    });
+  }, [cars]);
+
+ // console.log(cars);
 
   return (
     <section>
@@ -56,7 +121,7 @@ export default function CarsList({cars}) {
                   color: "rgb(255,255,255)",
                 }}
               >
-                Category
+                {category.current}
               </button>
               <div className="dropdown-menu">{categories}</div>
             </div>
@@ -74,18 +139,10 @@ export default function CarsList({cars}) {
                   color: "rgb(255,255,255)",
                 }}
               >
-                Make
+                {make.current}
               </button>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  First Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Second Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Third Item
-                </a>
+                {makes}
               </div>
             </div>
             <div className="dropdown d-inline-flex">
@@ -102,18 +159,10 @@ export default function CarsList({cars}) {
                   color: "rgb(255,255,255)",
                 }}
               >
-                Model
+                {model.current}
               </button>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  First Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Second Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Third Item
-                </a>
+                {models}
               </div>
             </div>
             <div className="dropdown d-inline-flex">
@@ -130,18 +179,10 @@ export default function CarsList({cars}) {
                   color: "rgb(255,255,255)",
                 }}
               >
-                Location
+                {city.current}
               </button>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
-                  First Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Second Item
-                </a>
-                <a className="dropdown-item" href="#">
-                  Third Item
-                </a>
+                {cities}
               </div>
             </div>
           </div>
@@ -153,7 +194,7 @@ export default function CarsList({cars}) {
           >
             
                 {cars.map(car=> {
-                  return <div className="col mb-4">
+                  return <div className="col mb-4" key={car._id}>
                   <div
                     className="card shadow-sm"
                     style={{
@@ -186,7 +227,7 @@ export default function CarsList({cars}) {
                       >
                         <img
                           src={convertPath(car.photos_url[0])}
-                          style={{ maxWidth: 321 }}
+                          style={{ maxWidth: 321, maxHeight: 170}}
                         />
                       </div>
                       <h5
