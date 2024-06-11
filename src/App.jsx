@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import CarsList from "./components/CarsList";
 import Dashboard from "./components/DashBoard";
 import CarForm from "./components/CarForm";
+import Faqs from "./components/Faqs";
 import axios from "axios";
 import getCookie from "./utils/getCookie";
 
@@ -19,6 +20,7 @@ export const defaultComponent = {
   cars: false,
   dashboard: false,
   addCars: false,
+  faqs: false,
 };
 
 export const OptionsContext = React.createContext({
@@ -69,6 +71,7 @@ export function App() {
       {component.cars && <CarsList />}
       {component.dashboard && <Dashboard />}
       {component.addCars && <CarForm/>}
+      {component.faqs && <Faqs/>}
       <Footer />
     </OptionsContext.Provider>
   );

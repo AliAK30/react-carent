@@ -101,7 +101,19 @@ const Navbar = () => {
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link">FAQ</a>
+              <a
+                className="nav-link"
+                role="button"
+                onClick={(e) => {
+                  setFocus(e);
+                  setComponent({
+                    ...defaultComponent,
+                    faqs: true,
+                  });
+                }}
+              >
+                FAQ
+              </a>
             </li>
             <li className="nav-item" />
             <li className="nav-item">
