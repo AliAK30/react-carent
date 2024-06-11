@@ -1,9 +1,11 @@
-let arr = ["apple", "mango", "apple",
-    "orange", "mango", "mango"];
-
-    console.log(typeof(arr))
-function removeDuplicates(arr) {
-return [...new Set(arr)];
+const years = (startYear) => {
+    let currentYear = new Date().getFullYear();
+    let years = [];
+    //startYear = startYear || 1980;  
+    while ( startYear <= currentYear ) {
+        years.push(`${startYear++}`);
+    }   
+    return years;
 }
 
-console.log(typeof(removeDuplicates(arr)));
+console.log(years(1990));

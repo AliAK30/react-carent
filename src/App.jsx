@@ -8,6 +8,7 @@ import Contact from "./components/Contact";
 import CarsList from "./components/CarsList";
 import Dashboard from "./components/DashBoard";
 import axios from "axios";
+import getCookie from "./utils/getCookie";
 
 export const defaultComponent = {
   login: false,
@@ -46,6 +47,12 @@ export function App() {
     },
     [component]
   );
+
+  useEffect(()=>{if(getCookie("carent-session-token") !== "")
+    {
+      setLogged(true)
+    }
+  },[])
     
   
 

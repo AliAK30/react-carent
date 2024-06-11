@@ -5,8 +5,6 @@ import { useContext, useRef, useEffect } from "react";
 import { OptionsContext } from "../App";
 import { defaultComponent } from "../App";
 
-
-
 const Navbar = () => {
   const { logged, component, setComponent } = useContext(OptionsContext);
 
@@ -68,9 +66,21 @@ const Navbar = () => {
                 Home
               </a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link">Add Car</a>
-            </li>
+            {logged ? (
+              <li className="nav-item">
+                <a
+                  className="nav-link"
+                  role="button"
+                  onClick={(e) => {
+                    setFocus(e);
+                  }}
+                >
+                  Add Car
+                </a>
+              </li>
+            ) : (
+              ""
+            )}
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -117,26 +127,29 @@ const Navbar = () => {
             }}
             placeholder="Search Car"
           />
-
-          <a
-            className="btn btn-primary shadow"
-            role="button"
-            style={{
-              backgroundColor: "0353C3",
-              height: "36.7812px",
-              margin: 6,
-              padding: "4.6px 32px",
-            }}
-            onClick={(e) => {
-              setFocus(e);
-              setComponent({
-                ...defaultComponent,
-                login: true,
-              });
-            }}
-          >
-            Log in
-          </a>
+          {logged ? (
+            <AccountDropdown />
+          ) : (
+            <a
+              className="btn btn-primary shadow"
+              role="button"
+              style={{
+                backgroundColor: "0353C3",
+                height: "36.7812px",
+                margin: 6,
+                padding: "4.6px 32px",
+              }}
+              onClick={(e) => {
+                setFocus(e);
+                setComponent({
+                  ...defaultComponent,
+                  login: true,
+                });
+              }}
+            >
+              Log in
+            </a>
+          )}
         </div>
       </div>
     </nav>

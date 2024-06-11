@@ -1,11 +1,13 @@
 //import './Login.css';
 import login from '../assets/img/login.jpg'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { OptionsContext } from '../App';
 import { defaultComponent } from '../App';
+import axios from 'axios';
 
 function Login() {
   const {setComponent, setLogged} = useContext(OptionsContext)
+  const [invalid, setInvalid] = useState(null)
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -19,10 +21,12 @@ function Login() {
       .then(function (response) {
         //setToken(getCookie("carent-session-token").token);
         //setUser(response.data);
+        setInvalid(null)
         setLogged(true)
+        setComponent({...defaultComponent, dashboard: true})
       })
       .catch(function (error) {
-        console.log(error);
+        setInvalid(<span className="badge bg-danger" style={{marginTop:"20px"}}>Invalid email or password</span>)
       });
   }
     return (
@@ -69,7 +73,9 @@ function Login() {
                   name="password"
                   placeholder="Password"
                 />
+                {invalid? invalid: ""}
               </div>
+              
               <div className="mb-3">
                 <button
                   className="btn btn-primary shadow d-block w-100"
