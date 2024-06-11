@@ -6,7 +6,7 @@ import capitalize from "../utils/capitalize";
 import axios from "axios";
 
 function removeDuplicates(arr) {
-  //console.log(arr)
+  
   return [...new Set(arr)];
 }
 

@@ -3,17 +3,16 @@ import capitalize from "../utils/capitalize";
 import convertPath from "../utils/convertPath";
 import getCookie from "../utils/getCookie";
 import { useRef, useState, useContext } from "react";
+import axios from "axios";
 
 export default function Car({ carDetails, back }) {
-
-  const {setComponent} = useContext(OptionsContext);
+  const { setComponent } = useContext(OptionsContext);
   let count1 = -1;
   let count2 = -1;
   const pickupDate = useRef(null);
   const returnDate = useRef(null);
   const [bill, setBill] = useState(0);
   const [invalid, setInvalid] = useState(null);
-  //console.log(count.current)
 
   const calculateBill = (pickup, dropoff) => {
     if (pickup.getFullYear() <= dropoff.getFullYear()) {
@@ -34,6 +33,7 @@ export default function Car({ carDetails, back }) {
         }
       }
     } else {
+      setBill(0);
       setInvalid(<span className="badge bg-danger">Invalid Date</span>);
     }
   };
@@ -50,18 +50,39 @@ export default function Car({ carDetails, back }) {
     calculateBill(pickupDate.current, returnDate.current);
   };
 
-  const rentNow = () => {
-    if(getCookie("carent-session-token") === "")
-    {
-        setComponent({
-            login: true,
-            home: false,
-            regForm: false,
-            contacts: false,
-            cars: false,
-          })
+  const rentNow = async () => {
+    if (getCookie("carent-session-token") === "") {
+      setComponent({
+        login: true,
+        home: false,
+        regForm: false,
+        contacts: false,
+        cars: false,
+      });
+    } else if (!invalid) {
+      const data = {
+        from: pickupDate.current,
+        to: returnDate.current,
+        total_bill: bill,
+        owner: carDetails.owner,
+        car_id: car._id,
+        rented_by: getCookie("carent-session-token").id,
+      };
+
+      await axios
+        .post("http://localhost:8080/user/car/rent", data, {
+          headers: {
+            Authorization: `Bearer ${getCookie("carent-session-token").token}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }
+  };
 
   return (
     <>
