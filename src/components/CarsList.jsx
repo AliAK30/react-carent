@@ -1,59 +1,73 @@
-import { useState, useEffect, useRef, useMemo, useContext} from "react";
+import Car from "./Car";
+import { useState, useEffect, useRef, useMemo, useContext } from "react";
 import { OptionsContext } from "../App";
-import convertPath from "../utils/convertPath"
-import capitalize from "../utils/capitalize"
+import convertPath from "../utils/convertPath";
+import capitalize from "../utils/capitalize";
 import axios from "axios";
 
 function removeDuplicates(arr) {
   //console.log(arr)
   return [...new Set(arr)];
-  }
-
+}
 
 export default function CarsList() {
   const { cars, setCars } = useContext(OptionsContext);
-  const [filter, setFilter] = useState("")
-  const category = useRef("Category")
-  const make = useRef("Make")
-  const model = useRef("Model")
-  const city = useRef("City")
+  const [filter, setFilter] = useState("");
+  const [carDetails, setCarDetails] = useState(null)
+  const category = useRef("Category");
+  const make = useRef("Make");
+  const model = useRef("Model");
+  const city = useRef("City");
 
   const applyFilter = async (e, filterType) => {
-    let filterString = ""
-    if(filter === "")
+    let filterString = "";
+    if(filterType !== "remove")
     {
-      filterString = `${filterType}=${e.target.text.toLowerCase()}`
-      console.log(filterString)
+      if (filter === "") {
+        filterString = `${filterType}=${e.target.text.toLowerCase()}`;
+      } else {
+        filterString = `${filter}&${filterType}=${e.target.text.toLowerCase()}`;
+      }
     }
-    else
-    {
-      filterString = `${filter}&${filterType}=${e.target.text.toLowerCase()}`
-    }
-  
+    
+
     //console.log(filterString)
 
     await axios.get(`http://localhost:8080/cars?${filterString}`).then(
       (res) => {
-        if(filterType === "category")
-          category.current = e.target.text
-        if(filterType === "make")
-          make.current = e.target.text
-        if(filterType === "model")
-          model.current = e.target.text
-        if(filterType === "city")
-          city.current = e.target.text
-        console.log(res.data)
-        setCars(res.data)
+        if(filterType === "remove")
+          {
+            category.current = "Category";
+            make.current = "Make";
+            model.current = "Model";
+            city.current = "City";
+            
+          }
+          else
+          {
+            if (filterType === "category") category.current = e.target.text;
+            if (filterType === "make") make.current = e.target.text;
+            if (filterType === "model") model.current = e.target.text;
+            if (filterType === "city") city.current = e.target.text;
+          }
+        
+        
+        setCars(res.data);
         setFilter(filterString);
       },
       (err) => console.log(err)
     );
-  }
+  };
 
   const categories = useMemo(() => {
     return removeDuplicates(cars).map((car) => {
       return (
-        <a className="dropdown-item" role="button" key={car.category} onClick={(e)=>applyFilter(e, "category")}>
+        <a
+          className="dropdown-item"
+          role="button"
+          key={car.category}
+          onClick={(e) => applyFilter(e, "category")}
+        >
           {capitalize(car.category)}
         </a>
       );
@@ -63,7 +77,12 @@ export default function CarsList() {
   const makes = useMemo(() => {
     return removeDuplicates(cars).map((car) => {
       return (
-        <a className="dropdown-item" role="button" key={car.make} onClick={(e)=>applyFilter(e, "make")}>
+        <a
+          className="dropdown-item"
+          role="button"
+          key={car.make}
+          onClick={(e) => applyFilter(e, "make")}
+        >
           {capitalize(car.make)}
         </a>
       );
@@ -73,7 +92,12 @@ export default function CarsList() {
   const models = useMemo(() => {
     return removeDuplicates(cars).map((car) => {
       return (
-        <a className="dropdown-item" role="button" key={car.model} onClick={(e)=>applyFilter(e, "model")}>
+        <a
+          className="dropdown-item"
+          role="button"
+          key={car.model}
+          onClick={(e) => applyFilter(e, "model")}
+        >
           {capitalize(car.model)}
         </a>
       );
@@ -83,16 +107,35 @@ export default function CarsList() {
   const cities = useMemo(() => {
     return removeDuplicates(cars).map((car) => {
       return (
-        <a className="dropdown-item" role="button" key={car.city} onClick={(e)=>applyFilter(e, "city")}>
+        <a
+          className="dropdown-item"
+          role="button"
+          key={car.city}
+          onClick={(e) => applyFilter(e, "city")}
+        >
           {capitalize(car.city)}
         </a>
       );
     });
   }, [cars]);
 
- // console.log(cars);
+  // console.log(cars);
 
   return (
+    <>
+    {carDetails ? <Car carDetails={carDetails} back={<button
+                  className="btn btn-primary btn-sm"
+                  type="button"
+                  style={{
+                    marginTop: 10,
+                    width: "181.969px",
+                    height: "41.1719px",
+                    fontSize: 18,
+                  }}
+                  onClick={()=>setCarDetails(null)}
+                >
+                  GO BACK
+                </button>}/> :
     <section>
       <div
         className="container py-5"
@@ -141,9 +184,7 @@ export default function CarsList() {
               >
                 {make.current}
               </button>
-              <div className="dropdown-menu">
-                {makes}
-              </div>
+              <div className="dropdown-menu">{makes}</div>
             </div>
             <div className="dropdown d-inline-flex">
               <button
@@ -161,9 +202,7 @@ export default function CarsList() {
               >
                 {model.current}
               </button>
-              <div className="dropdown-menu">
-                {models}
-              </div>
+              <div className="dropdown-menu">{models}</div>
             </div>
             <div className="dropdown d-inline-flex">
               <button
@@ -181,10 +220,22 @@ export default function CarsList() {
               >
                 {city.current}
               </button>
-              <div className="dropdown-menu">
-                {cities}
-              </div>
+              <div className="dropdown-menu">{cities}</div>
             </div>
+            <a onClick={(e) => applyFilter(e, "remove")}>
+              <span
+                id="myspan"
+                style={{
+                  marginLeft: "20px",
+                  color: "#000000",
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                Clear Filters
+              </span>
+            </a>
           </div>
         </div>
         <div className="py-5 p-lg-5" style={{ paddingTop: 202, marginTop: 46 }}>
@@ -192,9 +243,9 @@ export default function CarsList() {
             className="row row-cols-1 row-cols-md-2 mx-auto"
             style={{ maxWidth: 900 }}
           >
-            
-                {cars.map(car=> {
-                  return <div className="col mb-4" key={car._id}>
+            {cars.map((car) => {
+              return (
+                <div className="col mb-4" key={car._id}>
                   <div
                     className="card shadow-sm"
                     style={{
@@ -227,7 +278,7 @@ export default function CarsList() {
                       >
                         <img
                           src={convertPath(car.photos_url[0])}
-                          style={{ maxWidth: 321, maxHeight: 170}}
+                          style={{ maxWidth: 321, maxHeight: 170 }}
                         />
                       </div>
                       <h5
@@ -240,7 +291,7 @@ export default function CarsList() {
                           color: "var(--bs-black)",
                         }}
                       >
-                        {capitalize(car.make)+" " + capitalize(car.model)}
+                        {capitalize(car.make) + " " + capitalize(car.model)}
                       </h5>
                       <p
                         className="card-text mb-4"
@@ -287,18 +338,19 @@ export default function CarsList() {
                         className="btn btn-primary shadow"
                         type="button"
                         style={{ width: 310 }}
+                        onClick={()=>setCarDetails(car)}
                       >
                         Rent Now
                       </button>
                     </div>
                   </div>
                 </div>
-                })}
-
-
+              );
+            })}
           </div>
         </div>
       </div>
-    </section>
+    </section>}
+    </>
   );
 }
