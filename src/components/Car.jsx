@@ -5,6 +5,7 @@ import getCookie from "../utils/getCookie";
 import { defaultComponent } from "../App";
 import { useRef, useState, useContext } from "react";
 import axios from "axios";
+import Dashboard from "./DashBoard";
 
 export default function Car({ carDetails, back }) {
   const { setComponent } = useContext(OptionsContext);
@@ -16,27 +17,30 @@ export default function Car({ carDetails, back }) {
   const [invalid, setInvalid] = useState(null);
 
   const calculateBill = (pickup, dropoff) => {
-    if (pickup.getFullYear() <= dropoff.getFullYear()) {
-      if (dropoff && pickup) {
-        if (pickup.getMonth() <= dropoff.getMonth()) {
-          if (pickup.getDate() < dropoff.getDate()) {
-            setInvalid(null);
-            setBill(
-              (dropoff.getDate() - pickup.getDate()) * carDetails.price_per_day
-            );
+    if (pickup && dropoff) {
+      if (pickup.getFullYear() <= dropoff.getFullYear()) {
+        if (dropoff && pickup) {
+          if (pickup.getMonth() <= dropoff.getMonth()) {
+            if (pickup.getDate() < dropoff.getDate()) {
+              setInvalid(null);
+              setBill(
+                (dropoff.getDate() - pickup.getDate()) *
+                  carDetails.price_per_day
+              );
+            } else {
+              setBill(0);
+              setInvalid(<span className="badge bg-danger">Invalid Date</span>);
+            }
           } else {
             setBill(0);
             setInvalid(<span className="badge bg-danger">Invalid Date</span>);
           }
-        } else {
-          setBill(0);
-          setInvalid(<span className="badge bg-danger">Invalid Date</span>);
         }
+      }else {
+        setBill(0);
+        setInvalid(<span className="badge bg-danger">Invalid Date</span>);
       }
-    } else {
-      setBill(0);
-      setInvalid(<span className="badge bg-danger">Invalid Date</span>);
-    }
+    } 
   };
 
   const setPickupDate = (e) => {
@@ -53,18 +57,21 @@ export default function Car({ carDetails, back }) {
 
   const rentNow = async () => {
     if (getCookie("carent-session-token") === "") {
-      setComponent({...defaultComponent,
-        login: true
-      });
+      setComponent({ ...defaultComponent, login: true });
     } else if (!invalid) {
       const data = {
         from: pickupDate.current,
         to: returnDate.current,
         total_bill: bill,
         owner: carDetails.owner,
-        car_id: car._id,
+        car_id: carDetails._id,
         rented_by: getCookie("carent-session-token").id,
       };
+
+      if (data.rented_by === data.owner) {
+        setInvalid(<span className="badge bg-danger">This is your car!</span>);
+        return;
+      }
 
       await axios
         .post("http://localhost:8080/user/car/rent", data, {
@@ -74,6 +81,7 @@ export default function Car({ carDetails, back }) {
         })
         .then((res) => {
           console.log(res);
+          setComponent({ ...defaultComponent, dashboard: "true" });
         })
         .catch((err) => {
           console.log(err);
@@ -240,6 +248,7 @@ export default function Car({ carDetails, back }) {
                             count2++;
                             return (
                               <li
+                                key={url + "a"}
                                 className={count2 === 0 ? "active" : ""}
                                 data-bs-target="#carousel-2"
                                 data-bs-slide-to={count2}

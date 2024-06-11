@@ -6,7 +6,6 @@ import capitalize from "../utils/capitalize";
 import axios from "axios";
 
 function removeDuplicates(arr) {
-  
   return [...new Set(arr)];
 }
 
@@ -60,60 +59,60 @@ export default function CarsList() {
   };
 
   const categories = useMemo(() => {
-    return removeDuplicates(cars).map((car) => {
+    return removeDuplicates(cars.map(car=> {return car.category})).map((category) => {
       return (
         <a
           className="dropdown-item"
           role="button"
-          key={car.category}
+          key={category}
           onClick={(e) => applyFilter(e, "category")}
         >
-          {capitalize(car.category)}
+          {capitalize(category)}
         </a>
       );
     });
   }, [cars]);
 
   const makes = useMemo(() => {
-    return removeDuplicates(cars).map((car) => {
+    return removeDuplicates(cars.map(car=> {return car.make})).map((make) => {
       return (
         <a
           className="dropdown-item"
           role="button"
-          key={car.make}
+          key={make}
           onClick={(e) => applyFilter(e, "make")}
         >
-          {capitalize(car.make)}
+          {capitalize(make)}
         </a>
       );
     });
   }, [cars]);
 
   const models = useMemo(() => {
-    return removeDuplicates(cars).map((car) => {
+    return removeDuplicates(cars.map(car=> {return car.model})).map((model) => {
       return (
         <a
           className="dropdown-item"
           role="button"
-          key={car.model}
+          key={model}
           onClick={(e) => applyFilter(e, "model")}
         >
-          {capitalize(car.model)}
+          {capitalize(model)}
         </a>
       );
     });
   }, [cars]);
 
   const cities = useMemo(() => {
-    return removeDuplicates(cars).map((car) => {
+    return removeDuplicates(cars.map(car=> {return car.city})).map((city) => {
       return (
         <a
           className="dropdown-item"
           role="button"
-          key={car.city}
+          key={city}
           onClick={(e) => applyFilter(e, "city")}
         >
-          {capitalize(car.city)}
+          {capitalize(city)}
         </a>
       );
     });
