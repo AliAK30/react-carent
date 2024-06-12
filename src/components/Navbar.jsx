@@ -132,7 +132,7 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-          <input
+          {/* <input
             type="search"
             style={{
               width: 216,
@@ -142,7 +142,7 @@ const Navbar = () => {
               paddingRight: 10,
             }}
             placeholder="Search Car"
-          />
+          /> */}
           {logged ? (
             <AccountDropdown />
           ) : (
