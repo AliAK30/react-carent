@@ -10,13 +10,10 @@ function Footer() {
         <h3 className="fs-6 fw-bold">Services</h3>
         <ul className="list-unstyled">
           <li>
-            <a href="#">Web design</a>
+            <a href="#">Renting</a>
           </li>
           <li>
-            <a href="#">Development</a>
-          </li>
-          <li>
-            <a href="#">Hosting</a>
+            <a href="#">Lending</a>
           </li>
         </ul>
       </div>
@@ -50,14 +47,12 @@ function Footer() {
       </div>
       <div className="col-lg-3 text-center text-lg-start d-flex flex-column align-items-center order-first align-items-lg-start order-lg-last">
         <div className="fw-bold d-flex align-items-center mb-2">
-          <span className="bs-icon-sm bs-icon-circle bs-icon-primary d-flex justify-content-center align-items-center bs-icon me-2">
             <img
               src={logo}
               className="bi bi-bezier"
               height={40}
               viewBox="0 0 16 16"
             ></img>
-          </span>
         </div>
       </div>
     </div>
