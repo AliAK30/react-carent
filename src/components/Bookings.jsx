@@ -1,4 +1,8 @@
-export default function Bookings() {
+import capitalize from "../utils/capitalize";
+import convertPath from "../utils/convertPath";
+import getDateOnly from "../utils/dateHelper";
+
+export default function Bookings({bookings, toDelete}) {
   return (
     <div className="py-5 p-lg-5" style={{ paddingTop: 50, marginTop: "-4px"}}>
       <h1
@@ -11,7 +15,7 @@ export default function Bookings() {
       >
         Bookings
       </h1>
-      <div
+      {bookings.map(booking=> {return <div
         className="row row-cols-1 row-cols-md-2 mx-auto"
         style={{ maxWidth: 1085 }}
       >
@@ -52,7 +56,7 @@ export default function Bookings() {
                   }}
                 >
                   <img
-                    src="car-Revo.png"
+                    src={convertPath(booking.url)}
                     style={{ maxWidth: 270, width: 230 }}
                   />
                 </div>
@@ -72,7 +76,7 @@ export default function Bookings() {
                       width: "406.672px",
                     }}
                   >
-                    TOYOTA Rivo
+                    {`${booking.make.toUpperCase()} ${capitalize(booking.model)}`}
                   </h1>
                   <h1
                     className="fw-semibold shadow-sm d-xl-flex justify-content-xl-center align-items-xl-center"
@@ -87,7 +91,7 @@ export default function Bookings() {
                     }}
                   >
                     <span style={{ fontWeight: "normal !important" }}>
-                      PKR 20000
+                      {booking.price_per_day} PKR
                     </span>
                   </h1>
                 </div>
@@ -112,7 +116,7 @@ export default function Bookings() {
                     <br />
                     <strong>Pick-up:</strong>
                     <span style={{ fontWeight: "normal !important" }}>
-                      &nbsp;11/06/2024
+                      &nbsp;{getDateOnly(booking.from)}
                     </span>
                     <br />
                     <br />
@@ -133,7 +137,7 @@ export default function Bookings() {
                     <br />
                     <strong>Drop-off:</strong>
                     <span style={{ fontWeight: "normal !important" }}>
-                      &nbsp;11/06/2024
+                      &nbsp;{getDateOnly(booking.to)}
                     </span>
                     <br />
                     <br />
@@ -143,7 +147,7 @@ export default function Bookings() {
             </div>
           </div>
         </div>
-      </div>
+      </div>})}
     </div>
   );
 }

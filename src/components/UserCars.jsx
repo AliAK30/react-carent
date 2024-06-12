@@ -1,6 +1,7 @@
 import convertPath from "../utils/convertPath";
 import capitalize from "../utils/capitalize";
 import getCookie from "../utils/getCookie";
+import getDateOnly from "../utils/dateHelper";
 import axios from "axios";
 
 export default function UserCars({cars, toDelete}) {
@@ -120,7 +121,7 @@ export default function UserCars({cars, toDelete}) {
                       marginTop: 3,
                     }}
                   >
-                    <strong>Added on:</strong>&nbsp;{car.date_added}
+                    <strong>Added on:</strong>&nbsp;{getDateOnly(car.date_added)}
                   </p>
                 </div>
               </div>

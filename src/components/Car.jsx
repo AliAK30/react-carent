@@ -65,6 +65,10 @@ export default function Car({ carDetails, back }) {
         total_bill: bill,
         owner: carDetails.owner,
         car_id: carDetails._id,
+        make: carDetails.make,
+        model: carDetails.model,
+        price_per_day: carDetails.price_per_day,
+        url: carDetails.photos_url[0],
         rented_by: getCookie("carent-session-token").id,
       };
 

@@ -34,7 +34,26 @@ export default function Dashboard() {
     }
     else
     {
-
+      await axios
+        .get(
+          `http://localhost:8080/user/bookings/${
+            getCookie("carent-session-token").id
+          }`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                getCookie("carent-session-token").token
+              }`
+            },
+          }
+        )
+        .then((res) => {
+          //console.log(res.data)
+          setDisplay(<Bookings bookings={res.data} toDelete={setDisplay} />);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
