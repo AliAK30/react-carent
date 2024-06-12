@@ -128,7 +128,7 @@ const Navbar = () => {
                   });
                 }}
               >
-                Contacts
+                Contact Us
               </a>
             </li>
           </ul>

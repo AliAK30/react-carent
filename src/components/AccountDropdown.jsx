@@ -32,9 +32,11 @@ export default function AccountDropdown()  {
         data-bs-toggle="dropdown"
         type="button"
         style={{
-          margin: 13,
+          margin: "19px",
+          padding: "4.6px 32px",
           opacity: 1,
-          width: 149,
+          width: "auto",
+          height:"36.7812px",
           background: "#3763f4",
           color: "rgb(255,255,255)",
           boxShadow: "0px 0px var(--bs-red)",
