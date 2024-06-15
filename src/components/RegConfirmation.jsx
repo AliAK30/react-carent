@@ -1,3 +1,4 @@
+import { LottiePlayer } from "@lottiefiles/lottie-player"
 export default function RegConfirmation() {
     return (
         <div className="row row-cols-1 d-flex justify-content-evenly">

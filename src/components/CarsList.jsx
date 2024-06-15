@@ -184,7 +184,7 @@ export default function CarsList() {
                     style={{
                       margin: 13,
                       opacity: 1,
-                      width: 149,
+                      width: "auto",
                       background: "#3763f4",
                       color: "rgb(255,255,255)",
                     }}
@@ -202,7 +202,7 @@ export default function CarsList() {
                     style={{
                       margin: 13,
                       opacity: 1,
-                      width: 149,
+                      width: "auto",
                       background: "#3763f4",
                       color: "rgb(255,255,255)",
                     }}
@@ -220,7 +220,7 @@ export default function CarsList() {
                     style={{
                       margin: 13,
                       opacity: 1,
-                      width: 149,
+                      width: "auto",
                       background: "#3763f4",
                       color: "rgb(255,255,255)",
                     }}
@@ -238,7 +238,7 @@ export default function CarsList() {
                     style={{
                       margin: 13,
                       opacity: 1,
-                      width: 149,
+                      width: "auto",
                       background: "#3763f4",
                       color: "rgb(255,255,255)",
                     }}

@@ -23,18 +23,22 @@ function Signup() {
         <span className="badge bg-danger" style={{ marginTop: "20px" }}>
           Please enter your Full Name
         </span>
+        
       );
+      return;
     }
 
     else if (obj.email === "") {
       setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
           Please enter your Email
         </span>)
+        return;
     }
     else if (obj.password === "") {
       setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
           Please enter a Password
         </span>)
+        return;
     }
 
     if (e.target.password.value === e.target.confirmPassword.value) {
@@ -44,6 +48,9 @@ function Signup() {
           setInvalid("successful")
         })
         .catch(function (error) {
+          setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
+         Email already exists
+        </span>)
           console.log(error);
         });
     } else {
