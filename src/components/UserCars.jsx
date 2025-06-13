@@ -83,10 +83,12 @@ export default function UserCars({cars, toDelete}) {
                     paddingBottom: 32,
                   }}
                 >
-                  <img
-                    src={convertPath(car.photos_url[0])}
-                    style={{ maxWidth: 270, width: 230 }}
-                  />
+                  {car.photos_url && car.photos_url[0] ? (
+                    <img
+                      src={convertPath(car.photos_url[0])}
+                      style={{ maxWidth: 321, maxHeight: 170 }}
+                    />
+                  ) : null}
                 </div>
                 <h1
                   className="fw-semibold shadow-sm d-xl-flex justify-content-xl-center align-items-xl-center"

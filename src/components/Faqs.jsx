@@ -51,7 +51,7 @@ export default function Faqs() {
                   >
                     &nbsp;Q. Who can rent a car?
                   </h6>
-                  <p className="mb-0" style={{ color: "var(--bs-white)" }}>
+                  <p className="mb-0" style={{ color: "var(--bs-white)", textAlign: "left" }}>
                     A. Minimum age for hiring a car is 18 years and you should
                     have valid CNIC and driving license. If you are on a tourist
                     visa then you need to have a valid home country license, an

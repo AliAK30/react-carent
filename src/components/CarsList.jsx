@@ -304,10 +304,12 @@ export default function CarsList() {
                               paddingBottom: 52,
                             }}
                           >
-                            <img
-                              src={convertPath(car.photos_url[0])}
-                              style={{ maxWidth: 321, maxHeight: 170 }}
-                            />
+                            {car.photos_url && car.photos_url[0] ? (
+                              <img
+                                src={convertPath(car.photos_url[0])}
+                                style={{ maxWidth: 321, maxHeight: 170 }}
+                              />
+                            ) : null}
                           </div>
                           <h5
                             className="fw-bold shadow-sm card-title"

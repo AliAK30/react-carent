@@ -4,6 +4,7 @@ import getCookie from "../utils/getCookie";
 import axios from "axios";
 import { OptionsContext } from "../App";
 import { defaultComponent } from "../App";
+import { useReward } from 'react-rewards';
 
 export default function CarForm() {
   const [click, setClick] = useState(false);
@@ -11,6 +12,10 @@ export default function CarForm() {
   const category = useRef("Category");
   const year = useRef("Year");
   const city = useRef("City");
+
+  //const { reward, isAnimating } = useReward('rewardId', 'confetti');
+   const { reward, isAnimating } = useReward('rewardId', 'emoji', {
+     emoji: ['🚗','🏎','🚙','🚓','🚘','🚔','🏁','🚗','🚖','🚨','🚧','🚦','🚥']})
 
   const handleClick = (e, clickType) => {
     e.preventDefault();
@@ -41,8 +46,11 @@ export default function CarForm() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => {
-        setComponent({...defaultComponent, dashboard: true})
+      .then(() => {
+        reward();
+        setTimeout(() => {
+          setComponent({ ...defaultComponent, dashboard: true });
+        }, 900);
       })
       .catch((err) => {
         console.log(err);
@@ -296,8 +304,10 @@ export default function CarForm() {
                     className="btn btn-primary shadow d-block w-100"
                     type="submit"
                     form="carform"
+                    disabled={isAnimating}
+                    //onClick={reward}
                     style={{ fontSize: 21 }}
-                  >
+                  > <span id='rewardId' />
                     Add Car
                   </button>
                 </div>

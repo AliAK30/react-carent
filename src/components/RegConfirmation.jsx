@@ -46,8 +46,8 @@ export default function RegConfirmation() {
               mode="normal"
               style={{ marginTop: "-45px" }}
               speed="1.2"
-              loop=""
-              autoPlay=""
+              loop="true"
+              autoPlay="true"
             />
           </div>
         </div>

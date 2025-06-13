@@ -69,7 +69,7 @@ export default function App() {
       {component.login && <Login />}
       {component.regForm && <RegForm />}
       {component.contacts && <Contact />}
-      {component.cars && <CarsList />}
+      {component.cars && <CarsList/>}
       {component.dashboard && <Dashboard />}
       {component.addCars && <CarForm />}
       {component.faqs && <Faqs />}
