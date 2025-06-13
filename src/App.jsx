@@ -32,7 +32,7 @@ export const OptionsContext = React.createContext({
   setLogged: () => {},
 });
 
-export function App() {
+export default function App() {
   const [component, setComponent] = useState({
     ...defaultComponent,
     home: true,
