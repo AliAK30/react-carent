@@ -4,6 +4,8 @@ import { OptionsContext } from "../App";
 import { defaultComponent } from "../App";
 import axios from "axios";
 
+const emailRegex = /^\s*\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+\s*$/;
+
 function Signup() {
   const { component, setComponent } = useContext(OptionsContext);
   const [invalid, setInvalid] = useState(null);
@@ -37,6 +39,11 @@ function Signup() {
     else if (obj.password === "") {
       setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
           Please enter a Password
+        </span>)
+        return;
+    } else if(!emailRegex.test(obj.email)) {
+      setInvalid(<span className="badge bg-danger" style={{ marginTop: "20px" }}>
+          Please enter a valid email
         </span>)
         return;
     }
