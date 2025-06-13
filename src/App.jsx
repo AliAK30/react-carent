@@ -41,17 +41,18 @@ export default function App() {
   const [cars, setCars] = useState([]);
   const [logged, setLogged] = useState(false);
 
-  useEffect(
-    () => async () => {
-      await axios.get("http://localhost:8080/cars").then(
-        (res) => {
-          setCars(res.data);
-        },
-        (err) => console.log(err)
-      );
-    },
-    [component]
-  );
+  const fetch = () => {
+    axios.get("http://localhost:8080/cars").then(
+      (res) => {
+        setCars(res.data);
+      },
+      (err) => console.log(err)
+    );
+  };
+
+  useEffect(() => {
+    fetch();
+  }, [component]);
 
   useEffect(() => {
     if (getCookie("carent-session-token") !== "") {
@@ -70,8 +71,8 @@ export default function App() {
       {component.contacts && <Contact />}
       {component.cars && <CarsList />}
       {component.dashboard && <Dashboard />}
-      {component.addCars && <CarForm/>}
-      {component.faqs && <Faqs/>}
+      {component.addCars && <CarForm />}
+      {component.faqs && <Faqs />}
       <Footer />
     </OptionsContext.Provider>
   );
